@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Health Tracker</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="card">
+    <h2>Health Tracker</h2>
+
+    {% if not user.name %}
+    <form method="post" action="/create-user">
+        <input name="name" placeholder="Name" required>
+        <input name="age" type="number" placeholder="Age" required>
+        <input name="height" type="number" placeholder="Height (cm)" required>
+        <input name="weight" type="number" placeholder="Weight (kg)" required>
+        <input name="goal" placeholder="loss / gain" required>
+        <button>Create User</button>
+    </form>
+    {% else %}
+
+    <p><b>Name:</b> {{ user.name }}</p>
+    <p><b>Goal:</b> {{ user.goal }}</p>
+    <p><b>Steps:</b> {{ user.steps }}</p>
+
+    <hr>
+
+    <h3>Suggested Meals</h3>
+    {% for meal in user.meals %}
+        <p>🍽 {{ meal.name }} — {{ meal.calories }} cal ({{ meal.protein }}g protein)</p>
+    {% endfor %}
+
+    <hr>
+
+    <h3>Suggested Workouts</h3>
+    {% for workout in user.workouts %}
+        <p>🏋️ {{ workout.name }} — {{ workout.duration }} min</p>
+    {% endfor %}
+
+    <hr>
+
+    <h3>Add Custom Meal</h3>
+    <form method="post" action="/add-meal">
+        <input name="meal_name" placeholder="Meal name" required>
+        <input name="calories" type="number" placeholder="Calories" required>
+        <input name="protein" type="number" placeholder="Protein" required>
+        <button>Add Meal</button>
+    </form>
+
+    <h3>Add Custom Workout</h3>
+    <form method="post" action="/add-workout">
+        <input name="workout_name" placeholder="Workout name" required>
+        <input name="duration" type="number" placeholder="Minutes" required>
+        <button>Add Workout</button>
+    </form>
+
+    {% endif %}
+</div>
+
+</body>
+</html>
